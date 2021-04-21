@@ -28,6 +28,7 @@ public class Produto implements Serializable{
 	
 	private Double preco;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "td_produto_categoria", 
 	joinColumns = @JoinColumn(name="produto_id"),
@@ -48,8 +49,6 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 	
-
-
 	public Long getId() {
 		return id;
 	}
