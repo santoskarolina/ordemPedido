@@ -17,8 +17,6 @@ public class PedidoService {
 	@Autowired
 	private PedidoRepository repository;
 	
-	
-	
 	public List<Pedido> findAll(){
 		return repository.findAll();
 	}
