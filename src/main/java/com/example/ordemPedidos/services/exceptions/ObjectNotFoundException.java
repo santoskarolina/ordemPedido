@@ -7,5 +7,4 @@ public class ObjectNotFoundException extends RuntimeException{
 	public ObjectNotFoundException(Long id) {
 		super("Objeto não ecnontrado com id " + id);
 	}
-
 }

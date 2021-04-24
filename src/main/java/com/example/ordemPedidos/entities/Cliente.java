@@ -30,7 +30,6 @@ public class Cliente implements Serializable{
 	private String email;
 	
 	private Integer tipo;
-	
 	private String cpfOuCnpj;
 	
 	@OneToMany(mappedBy = "cliente")
@@ -76,12 +75,12 @@ public class Cliente implements Serializable{
 		this.email = email;
 	}
 	
-	public Integer getTipo() {
-		return tipo;
+	public TipoCliente getTipo() {
+		return TipoCliente.toEnum(tipo);
 	}
 
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
+	public void setTipo(TipoCliente tipo) {
+		this.tipo = tipo.getCod();
 	}
 
 	public String getCpfOuCnpj() {

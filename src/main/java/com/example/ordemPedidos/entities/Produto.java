@@ -30,9 +30,9 @@ public class Produto implements Serializable{
 	
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "td_produto_categoria", 
-	joinColumns = @JoinColumn(name="produto_id"),
-	inverseJoinColumns = @JoinColumn(name="categoria_id"))
+	@JoinTable(name = "produto_categoria", //nome da tabela
+	joinColumns = @JoinColumn(name="produto_id"), //nome da chave da classe estrangeira da classe que estou, no caso PRODUTO
+	inverseJoinColumns = @JoinColumn(name="categoria_id")) //nome da chave da classe estrangeira da outra classe, no caso CATEGORIA
 	private List<Categoria> categorias = new ArrayList<>();
 	
 	@JsonIgnore

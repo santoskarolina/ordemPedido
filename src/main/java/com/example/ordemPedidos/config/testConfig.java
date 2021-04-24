@@ -169,11 +169,7 @@ public class testConfig implements CommandLineRunner{
 		ItemPedido ip2 = new ItemPedido(p3, pd2, 10.00, 2, 1500.20);
 		itemRepository.saveAll(Arrays.asList(ip1,ip2));
 		
-		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052-572");
-		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052-572");
-		Endereco ed3 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000");
-		Endereco ed4 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000");
-		enderecoRepository.saveAll(Arrays.asList(ed1,ed2,ed3,ed4));
+		
 		
 		Estado est1 = new Estado(null, "Maranhão");
 		Estado est2 = new Estado(null, "Pará");
@@ -184,11 +180,12 @@ public class testConfig implements CommandLineRunner{
 		Cidade cd3 = new Cidade(null, "Parauapebas", est2);
 		cidadeRepository.saveAll(Arrays.asList(cd1,cd2,cd3));
 		
-		ed1.setCidade(cd1);
-		ed2.setCidade(cd1);
-		ed3.setCidade(cd2);
-		ed4.setCidade(cd3);
+		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052-572",cd1);
+		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052-572", cd1);
+		Endereco ed3 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000", cd2);
+		Endereco ed4 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000",cd3);
 		enderecoRepository.saveAll(Arrays.asList(ed1,ed2,ed3,ed4));
+		
 		
 		Cliente cli1 = new Cliente(null, "Ana Karolina", "anna15solviera@gmail.com", TipoCliente.PESSOA_FISICA,"618.014.053-79");
 		Cliente cli2 = new Cliente(null, "Mary Santos", "mary@gmail.com",TipoCliente.PESSOA_FISICA, "618.014.053-79");
