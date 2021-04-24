@@ -49,6 +49,15 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 	
+	@JsonIgnore
+	public List<Pedido> getPedidos(){
+		List<Pedido> lista = new ArrayList<>();
+		for(ItemPedido x : items) {
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -79,6 +88,14 @@ public class Produto implements Serializable{
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+	
+	public List<ItemPedido> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemPedido> items) {
+		this.items = items;
 	}
 
 	@Override

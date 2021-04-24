@@ -232,16 +232,25 @@ public class testConfig implements CommandLineRunner{
 		cli3.getPedidos().addAll(Arrays.asList(pd4));
 		cli4.getPedidos().addAll(Arrays.asList(pd5));
 		
-		
 		pedidoRepository.saveAll(Arrays.asList(pd1,pd2,pd3,pd4,pd5));
 		pagamentoRespository.saveAll(Arrays.asList(pgt1, pgt2,pgt3,pgt4,pgt5));
 		clienteRepository.saveAll(Arrays.asList(cli1,cli2,cli3,cli4));
 		
-		/*
-		ItemPedido ip1 = new ItemPedido(p3, pd1, 10.00, 2, 1500.20);
-		ItemPedido ip2 = new ItemPedido(p3, pd2, 10.00, 2, 1500.20);
+		
+		ItemPedido ip1 = new ItemPedido(p1, pd1, 10.00, 2, 1500.20);
+		ItemPedido ip2 = new ItemPedido(p2, pd2, 15.00, 1, 1320.20);
+		
+		
+		
+		pd1.getItems().addAll(Arrays.asList(ip1));
+		pd2.getItems().addAll(Arrays.asList(ip2));
+		
+		p1.getItems().addAll(Arrays.asList(ip1));
+		p2.getItems().addAll(Arrays.asList(ip2));
+		
 		itemRepository.saveAll(Arrays.asList(ip1,ip2));
-		*/
+		pedidoRepository.saveAll(Arrays.asList(pd1,pd2,pd3,pd4,pd5));
+		pedidoRepository.saveAll(Arrays.asList(pd1,pd2,pd3,pd4,pd5));
 		
 	}
 }

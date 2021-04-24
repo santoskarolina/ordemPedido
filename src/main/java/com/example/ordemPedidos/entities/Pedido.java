@@ -29,9 +29,6 @@ public class Pedido implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date horaPedido;
 	
-	@OneToMany(mappedBy = "id.pedido")
-	private List<ItemPedido> items = new ArrayList<>();
-	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
 	
@@ -42,6 +39,9 @@ public class Pedido implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
+	
+	@OneToMany(mappedBy = "id.pedido")
+	private List<ItemPedido> items = new ArrayList<>();
 	
 	public Pedido() {
 	}
@@ -79,14 +79,6 @@ public class Pedido implements Serializable{
 		this.horaPedido = horaPedido;
 	}
 	
-	public List<ItemPedido> getItems() {
-		return items;
-	}
-
-	public void setItems(List<ItemPedido> items) {
-		this.items = items;
-	}
-	
 	public Pagamento getPagamento() {
 		return pagamento;
 	}
@@ -101,6 +93,14 @@ public class Pedido implements Serializable{
 
 	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+	public List<ItemPedido> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemPedido> items) {
+		this.items = items;
 	}
 
 	@Override
