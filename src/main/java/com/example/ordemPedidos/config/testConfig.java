@@ -29,6 +29,7 @@ import com.example.ordemPedidos.repositories.ItemPedidoRepository;
 import com.example.ordemPedidos.repositories.PagamentoRepository;
 import com.example.ordemPedidos.repositories.PedidoRepository;
 import com.example.ordemPedidos.repositories.ProdutoRepository;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Configuration
 public class testConfig implements CommandLineRunner{
@@ -63,7 +64,7 @@ public class testConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		Categoria c1 = new Categoria(null, "Informática");
 		Categoria c2 = new Categoria(null, "Escritório");
@@ -205,23 +206,21 @@ public class testConfig implements CommandLineRunner{
 		cli3.getTelefones().add("(98)981459104");
 		cli4.getTelefones().add("(98)988091909");
 		clienteRepository.saveAll(Arrays.asList(cli1,cli2,cli3,cli4));
-		
-		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-		Pedido pd1 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli1, ed1);
-		Pedido pd2 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli1, ed2);
-		Pedido pd3 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli2, ed3);
-		Pedido pd4 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli3, ed4);
-		Pedido pd5 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli4, ed5);
+		Pedido pd1 = new Pedido(null, sdf.parse("01/04/2021 12:30"), cli1, ed1);
+		Pedido pd2 = new Pedido(null, sdf.parse("12/01/2021 12:30"), cli1, ed2);
+		Pedido pd3 = new Pedido(null, sdf.parse("25/10/2020 12:30"), cli2, ed3);
+		Pedido pd4 = new Pedido(null, sdf.parse("23/09/2020 12:30"), cli3, ed4);
+		Pedido pd5 = new Pedido(null, sdf.parse("10/04/2021 12:30"), cli4, ed5);
 		
-		
-		Pagamento pgt1 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd1, sdf2.parse("20/02/2021 00:00"), null);
+	
+		Pagamento pgt1 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd1, sdf.parse("20/02/2021 00:00"), null);
 		pd1.setPagamento(pgt1);
 		Pagamento pgt2 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd2, 4);
 		pd2.setPagamento(pgt2);
-		Pagamento pgt3 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd3, sdf2.parse("20/02/2021 00:00"), null);
+		Pagamento pgt3 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd3, sdf.parse("20/02/2021 00:00"), null);
 		pd3.setPagamento(pgt3);
-		Pagamento pgt4 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd4, sdf2.parse("20/02/2021 00:00"), null);
+		Pagamento pgt4 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd4, sdf.parse("20/02/2021 00:00"), null);
 		pd4.setPagamento(pgt4);
 		Pagamento pgt5 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd5, 4);
 		pd5.setPagamento(pgt5);

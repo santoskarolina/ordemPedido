@@ -26,7 +26,7 @@ public class Pedido implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date horaPedido;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
@@ -85,6 +85,14 @@ public class Pedido implements Serializable{
 
 	public void setPagamento(Pagamento pagamento) {
 		this.pagamento = pagamento;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Endereco getEnderecoDeEntrega() {
