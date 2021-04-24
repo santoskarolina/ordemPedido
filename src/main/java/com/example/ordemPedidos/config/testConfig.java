@@ -29,7 +29,6 @@ import com.example.ordemPedidos.repositories.ItemPedidoRepository;
 import com.example.ordemPedidos.repositories.PagamentoRepository;
 import com.example.ordemPedidos.repositories.PedidoRepository;
 import com.example.ordemPedidos.repositories.ProdutoRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Configuration
 public class testConfig implements CommandLineRunner{
