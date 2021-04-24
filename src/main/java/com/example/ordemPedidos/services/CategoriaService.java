@@ -12,6 +12,7 @@ import com.example.ordemPedidos.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
+	
 	@Autowired
 	private CategoriaRepository repository;
 	
@@ -23,5 +24,4 @@ public class CategoriaService {
 		Optional<Categoria> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
-
 }

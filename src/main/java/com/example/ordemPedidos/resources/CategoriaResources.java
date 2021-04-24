@@ -1,6 +1,7 @@
 package com.example.ordemPedidos.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ordemPedidos.entities.Categoria;
+import com.example.ordemPedidos.entities.DTO.CategoriaDTO;
 import com.example.ordemPedidos.services.CategoriaService;
 
 @RestController
@@ -20,9 +22,9 @@ public class CategoriaResources {
 	private CategoriaService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Categoria>> findAll(){
-		List<Categoria> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<CategoriaDTO>> findAll(){
+		List<CategoriaDTO> listDTO = service.findAll().stream().map((x) -> new CategoriaDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@GetMapping(value="/{id}")
