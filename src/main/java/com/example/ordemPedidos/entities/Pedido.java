@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,8 +32,12 @@ public class Pedido implements Serializable{
 	@OneToMany(mappedBy = "id.pedido")
 	private List<ItemPedido> items = new ArrayList<>();
 	
-	@OneToOne(mappedBy = "pedido")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
+	
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
+	private Cliente cliente;
 	
 	@ManyToOne
 	@JoinColumn(name="endereco_de_entrega_id")
@@ -41,10 +46,13 @@ public class Pedido implements Serializable{
 	public Pedido() {
 	}
 
-	public Pedido(Long id, Date horaPedido) {
+	public Pedido(Long id, Date horaPedido, Cliente cliente,
+			Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
 		this.horaPedido = horaPedido;
+		this.cliente = cliente;
+		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
 	public double getValorTotal() {

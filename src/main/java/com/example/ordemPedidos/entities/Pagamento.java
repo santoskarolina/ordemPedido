@@ -6,14 +6,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.example.ordemPedidos.entities.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Pagamento implements Serializable{
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Pagamento implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,6 +30,7 @@ public class Pagamento implements Serializable{
 	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
+	@MapsId //mesmo id da classe pedido
 	private Pedido pedido;
 	
 	public Pagamento() {

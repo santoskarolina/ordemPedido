@@ -59,9 +59,7 @@ public class testConfig implements CommandLineRunner{
 	
 	@Autowired
 	private PagamentoRepository pagamentoRespository;
-	
 
-	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -161,15 +159,6 @@ public class testConfig implements CommandLineRunner{
 		p11.getCategorias().addAll(Arrays.asList(c7));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
 		
-		Pedido pd1 = new Pedido(null, sdf.parse("2021-04-23 14:30"));
-		Pedido pd2 = new Pedido(null, sdf.parse("2021-04-01 12:30"));
-		pedidoRepository.saveAll(Arrays.asList(pd1,pd2));
-		
-		ItemPedido ip1 = new ItemPedido(p3, pd1, 10.00, 2, 1500.20);
-		ItemPedido ip2 = new ItemPedido(p3, pd2, 10.00, 2, 1500.20);
-		itemRepository.saveAll(Arrays.asList(ip1,ip2));
-		
-		
 		
 		Estado est1 = new Estado(null, "Maranhão");
 		Estado est2 = new Estado(null, "Pará");
@@ -180,12 +169,9 @@ public class testConfig implements CommandLineRunner{
 		Cidade cd3 = new Cidade(null, "Parauapebas", est2);
 		cidadeRepository.saveAll(Arrays.asList(cd1,cd2,cd3));
 		
-		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052-572",cd1);
-		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052-572", cd1);
-		Endereco ed3 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000", cd2);
-		Endereco ed4 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000",cd3);
-		enderecoRepository.saveAll(Arrays.asList(ed1,ed2,ed3,ed4));
-		
+		est1.getCidades().addAll(Arrays.asList(cd1,cd2));
+		est2.getCidades().addAll(Arrays.asList(cd3));
+		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		
 		Cliente cli1 = new Cliente(null, "Ana Karolina", "anna15solviera@gmail.com", TipoCliente.PESSOA_FISICA,"618.014.053-79");
 		Cliente cli2 = new Cliente(null, "Mary Santos", "mary@gmail.com",TipoCliente.PESSOA_FISICA, "618.014.053-79");
@@ -193,11 +179,18 @@ public class testConfig implements CommandLineRunner{
 		Cliente cli4= new Cliente(null, "Carlos Alberto", "carlos@gmail.com", TipoCliente.PESSOA_JURIDICA,"618.014.053-79");
 		clienteRepository.saveAll(Arrays.asList(cli1,cli2,cli3,cli4));
 		
+		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052-572",cd1);
+		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052-572", cd1);
+		Endereco ed3 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000", cd2);
+		Endereco ed4 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000",cd3);
+		Endereco ed5 = new Endereco(null, "Rua", "12", "Rua da metalurgica", "Lima Verde", "65130-000",cd3);
+		enderecoRepository.saveAll(Arrays.asList(ed1,ed2,ed3,ed4,ed5));
+		
 		cli1.getEnderecos().add(ed1);
 		cli1.getEnderecos().add(ed2);
 		cli2.getEnderecos().add(ed3);
 		cli3.getEnderecos().add(ed4);
-		cli4.getEnderecos().add(ed4);
+		cli4.getEnderecos().add(ed5);
 		clienteRepository.saveAll(Arrays.asList(cli1,cli1,cli2,cli3,cli4));
 		
 		ed1.setCliente(cli3);
@@ -207,22 +200,48 @@ public class testConfig implements CommandLineRunner{
 		ed4.setCliente(cli4);
 		enderecoRepository.saveAll(Arrays.asList(ed1,ed2,ed3,ed4));
 		
-		pd1.setEnderecoDeEntrega(ed4);
-		pd2.setEnderecoDeEntrega(ed3);
-		pedidoRepository.saveAll(Arrays.asList(pd1,pd2));
-		
 		cli1.getTelefones().add("(98)983507150");
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		cli2.getTelefones().add("(98)981166683");
+		cli3.getTelefones().add("(98)981459104");
+		cli4.getTelefones().add("(98)988091909");
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2,cli3,cli4));
 		
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	
+		Pedido pd1 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli1, ed1);
+		Pedido pd2 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli1, ed2);
+		Pedido pd3 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli2, ed3);
+		Pedido pd4 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli3, ed4);
+		Pedido pd5 = new Pedido(null, sdf.parse("2021-04-01 12:30"), cli4, ed5);
+		
 		
 		Pagamento pgt1 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd1, sdf2.parse("20/02/2021 00:00"), null);
-		Pagamento pgt2 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd2, 4);
-		pagamentoRespository.saveAll(Arrays.asList(pgt1, pgt2));
-		
 		pd1.setPagamento(pgt1);
+		Pagamento pgt2 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd2, 4);
 		pd2.setPagamento(pgt2);
-		pedidoRepository.saveAll(Arrays.asList(pd1,pd2));
+		Pagamento pgt3 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd3, sdf2.parse("20/02/2021 00:00"), null);
+		pd3.setPagamento(pgt3);
+		Pagamento pgt4 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd4, sdf2.parse("20/02/2021 00:00"), null);
+		pd4.setPagamento(pgt4);
+		Pagamento pgt5 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd5, 4);
+		pd5.setPagamento(pgt5);
+		
+		
+		cli1.getPedidos().addAll(Arrays.asList(pd1,pd2));
+		cli2.getPedidos().addAll(Arrays.asList(pd3));
+		cli3.getPedidos().addAll(Arrays.asList(pd4));
+		cli4.getPedidos().addAll(Arrays.asList(pd5));
+		
+		
+		pedidoRepository.saveAll(Arrays.asList(pd1,pd2,pd3,pd4,pd5));
+		pagamentoRespository.saveAll(Arrays.asList(pgt1, pgt2,pgt3,pgt4,pgt5));
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2,cli3,cli4));
+		
+		/*
+		ItemPedido ip1 = new ItemPedido(p3, pd1, 10.00, 2, 1500.20);
+		ItemPedido ip2 = new ItemPedido(p3, pd2, 10.00, 2, 1500.20);
+		itemRepository.saveAll(Arrays.asList(ip1,ip2));
+		*/
 		
 	}
 }
