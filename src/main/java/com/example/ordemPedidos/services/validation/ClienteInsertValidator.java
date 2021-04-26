@@ -6,14 +6,19 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.ordemPedidos.entities.Cliente;
 import com.example.ordemPedidos.entities.DTO.ClienteNewDTO;
 import com.example.ordemPedidos.entities.enums.TipoCliente;
+import com.example.ordemPedidos.repositories.ClienteRepository;
 import com.example.ordemPedidos.resources.exceptions.FieldMessage;
 import com.example.ordemPedidos.services.validation.utils.BR;
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
 	
-
+	@Autowired
+	private ClienteRepository clienteRepository;
 	
 	@Override
 	public void initialize(ClienteInsert ann) {
@@ -33,7 +38,10 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 		}
 		
 		
-		
+		Cliente aux = clienteRepository.findByEmail(objDto.getEmail());
+		if (aux != null) {
+			list.add(new FieldMessage("email","Email já existe"));
+		}
 		
 		///
 		for (FieldMessage e : list) {

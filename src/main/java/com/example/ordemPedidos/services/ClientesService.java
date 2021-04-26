@@ -40,7 +40,6 @@ public class ClientesService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
 	
-	
 	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
