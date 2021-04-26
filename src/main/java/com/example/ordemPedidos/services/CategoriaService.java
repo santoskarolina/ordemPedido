@@ -37,9 +37,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Long id, Categoria obj) {
-		Categoria entity = repository.getOne(id);
-		updateDate(entity,obj);
-		return repository.save(entity);		
+		Categoria newObj = repository.getOne(id);
+		updateDate(newObj,obj);
+		return repository.save(newObj);		
 		
 	}
 	
@@ -49,7 +49,6 @@ public class CategoriaService {
 		}catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Categoria possui produtos associados");
 		}
-		
 	}
 	
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction,String orderBy){
@@ -57,9 +56,8 @@ public class CategoriaService {
 		return repository.findAll(pageRequest);
 	}
 	
-	
-	private void updateDate(Categoria entity, Categoria obj) {
-		entity.setNome(obj.getNome());
+	private void updateDate(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 	
 	//cria um acategoria a partir de uma categoriaDTO

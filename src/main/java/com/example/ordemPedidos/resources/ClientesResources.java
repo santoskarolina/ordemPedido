@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.ordemPedidos.entities.Cliente;
 import com.example.ordemPedidos.entities.DTO.ClienteDTO;
+import com.example.ordemPedidos.entities.DTO.ClienteNewDTO;
 import com.example.ordemPedidos.services.ClientesService;
 
 @RestController
@@ -44,7 +45,7 @@ public class ClientesResources {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDTO){
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO){
 		Cliente obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
