@@ -43,7 +43,7 @@ public class ResourceExceptionHandler {
 		
 		//percorrer a lista de erros
 		for (FieldError x : e.getBindingResult().getFieldErrors()) {
-			validationErro.addError(x.getDefaultMessage());
+			validationErro.addError(x.getField(), x.getDefaultMessage());
 		}	
 		return ResponseEntity.status(status).body(validationErro);	
 	}
