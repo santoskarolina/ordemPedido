@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.example.ordemPedidos.entities.Categoria;
+import com.example.ordemPedidos.entities.DTO.CategoriaDTO;
 import com.example.ordemPedidos.repositories.CategoriaRepository;
 import com.example.ordemPedidos.services.exceptions.DataIntegrityException;
 import com.example.ordemPedidos.services.exceptions.ObjectNotFoundException;
@@ -59,5 +60,10 @@ public class CategoriaService {
 	
 	private void updateDate(Categoria entity, Categoria obj) {
 		entity.setNome(obj.getNome());
+	}
+	
+	//cria um acategoria a partir de uma categoriaDTO
+	public Categoria fromDTO(CategoriaDTO objDTO){
+		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 }
