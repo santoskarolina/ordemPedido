@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +41,11 @@ public class PedidoResources {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody Pedido obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj){
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
-		
-		
 	}
+	
+	
 }
