@@ -24,7 +24,7 @@ public class Cliente implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	private String nome;
 	
@@ -48,7 +48,7 @@ public class Cliente implements Serializable{
 	public Cliente() {
 	}
 
-	public Cliente(Long id, String nome, String email, TipoCliente tipo ,String cpfOuCnpj) {
+	public Cliente(Integer id, String nome, String email, TipoCliente tipo ,String cpfOuCnpj) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -57,11 +57,11 @@ public class Cliente implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -35,7 +35,7 @@ public class ClientesService {
 		return repository.findAll();
 	}
 	
-	public Cliente findById(Long id) {
+	public Cliente findById(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
@@ -48,13 +48,13 @@ public class ClientesService {
 		return obj;
 	}
 	
-	public Cliente update(Long id, Cliente obj) {
+	public Cliente update(Integer id, Cliente obj) {
 		Cliente newObj = repository.getOne(id);
 		updateDate(newObj,obj);
 		return repository.save(newObj);		
 	}
 	
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		try {
 			repository.deleteById(id);
 		}catch(DataIntegrityViolationException e) {

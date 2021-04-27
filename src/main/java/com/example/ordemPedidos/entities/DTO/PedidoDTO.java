@@ -12,7 +12,7 @@ public class PedidoDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private Integer id;
 	private Date horaPedido;
 	private Pagamento pagamento;
 	
@@ -26,11 +26,11 @@ public class PedidoDTO implements Serializable{
 		pagamento = obj.getPagamento();
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

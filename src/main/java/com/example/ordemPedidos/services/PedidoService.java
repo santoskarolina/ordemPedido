@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ordemPedidos.entities.Pedido;
 import com.example.ordemPedidos.entities.enums.EstadoPagamento;
@@ -21,11 +22,12 @@ public class PedidoService {
 		return repository.findAll();
 	}
 	
-	public Pedido findById(Long id) {
+	public Pedido findById(Integer id) {
 		Optional<Pedido> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
 	
+	@Transactional
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setHoraPedido(new Date());
@@ -33,4 +35,6 @@ public class PedidoService {
 		obj.getPagamento().setPedido(obj);
 		return obj;	
 	}
+	
+	
 }

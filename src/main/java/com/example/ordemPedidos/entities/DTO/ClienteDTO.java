@@ -15,7 +15,7 @@ public class ClienteDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private Integer id;
 	
 	@NotEmpty(message ="Preenchimento obrigatório")
 	@Email(message ="Email inválido")
@@ -35,11 +35,11 @@ public class ClienteDTO implements Serializable{
 		nome = obj.getNome();
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

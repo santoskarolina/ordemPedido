@@ -26,7 +26,7 @@ public class CategoriaService {
 		return repository.findAll();
 	}
 	
-	public Categoria findById(Long id) {
+	public Categoria findById(Integer id) {
 		Optional<Categoria> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
 	}
@@ -36,14 +36,14 @@ public class CategoriaService {
 		return repository.save(obj);
 	}
 	
-	public Categoria update(Long id, Categoria obj) {
+	public Categoria update(Integer id, Categoria obj) {
 		Categoria newObj = repository.getOne(id);
 		updateDate(newObj,obj);
 		return repository.save(newObj);		
 		
 	}
 	
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		try {
 			repository.deleteById(id);
 		}catch(DataIntegrityViolationException e) {

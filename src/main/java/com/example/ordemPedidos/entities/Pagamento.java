@@ -23,7 +23,7 @@ public abstract class Pagamento implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	private Integer estado;
 	
@@ -36,18 +36,18 @@ public abstract class Pagamento implements Serializable{
 	public Pagamento() {
 	}
 	
-	public Pagamento(Long id, EstadoPagamento estado, Pedido pedido) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
 		this.estado = (estado == null) ? null: estado.getCod();
 		this.pedido = pedido;
 	}
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

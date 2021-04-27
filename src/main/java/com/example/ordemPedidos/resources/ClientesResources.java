@@ -39,7 +39,7 @@ public class ClientesResources {
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<Cliente> findById(@PathVariable Long id){
+	public ResponseEntity<Cliente> findById(@PathVariable Integer id){
 		Cliente obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
@@ -53,14 +53,14 @@ public class ClientesResources {
 	}
 	
 	@PutMapping(value="/{id}")
-	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO objDTo, @PathVariable Long id){
+	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO objDTo, @PathVariable Integer id){
 		Cliente obj = service.fromDTO(objDTo);
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

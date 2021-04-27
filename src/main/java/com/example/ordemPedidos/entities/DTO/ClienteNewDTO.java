@@ -46,7 +46,7 @@ public class ClienteNewDTO implements Serializable{
 	private String telefone2;
 	private String telefone3;
 	
-	private Long cidadeId;
+	private Integer cidadeId;
 	
 	public ClienteNewDTO() {
 	}
@@ -147,11 +147,11 @@ public class ClienteNewDTO implements Serializable{
 		this.telefone3 = telefone3;
 	}
 
-	public Long getCidadeId() {
+	public Integer getCidadeId() {
 		return cidadeId;
 	}
 
-	public void setCidadeId(Long cidadeId) {
+	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}	
 }
