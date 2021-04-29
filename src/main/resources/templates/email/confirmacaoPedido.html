@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:remove="all">Order Confirmation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+	body {
+		background-color: #ddbea9;
+	}
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.total{
+		font-size: 20px;
+	}
+	.main{
+		display: flex;
+  		justify-content: center;
+		background-color: #e9edc9;
+		padding: 10px 10px 10px 10px;
+		margin: 20px 20px 20px 20px;
+		align-items: center;
+		width: 90%;
+   		height: 500px;
+	}
+	.subMain{
+		width: 80%;
+		height: 400px;
+	    position: absolute;
+		border-top: 6px solid red;
+		border-bottom: 6px solid red;
+		padding: 30px 30px 30px 30px;
+		background-color: #ffffff;
+	}
+</style>
+</head>
+<body>
+	<div class="main">
+		<div class="subMain">
+			<h2>
+				Olá <span th:text="${pedido.cliente.nome}"></span>, confirmação do
+				pedido:
+			</h2>
+			<h3>
+				Pedido número: <span th:text="${pedido.id}"> </span>
+			</h3>
+			<p>
+				Data do pedido: <span
+					th:text="${#dates.format(pedido.horaPedido, 'dd/MM/yyyy hh:mm')}"></span>
+			</p>
+			<p>
+				Cliente: <span th:text="${pedido.cliente.nome}"></span>
+			</p>
+			<p>
+				Situação do pagamento: <span
+					th:text="${pedido.pagamento.estado.descricao}"></span>
+			</p>
+			<h3>Detalhes do pedido:</h3>
+			<table border="1">
+				<tr>
+					<th>Produto</th>
+					<th>Quantidade</th>
+					<th>Preço unitário</th>
+					<th>Subtotal</th>
+				</tr>
+				<tr th:each="item : ${pedido.items}">
+					<td th:text="${item.produto.nome}">nome</td>
+					<td th:text="${item.quantidade}">quantidade</td>
+					<td
+						th:text="${#numbers.formatDecimal(item.preco, 0, 'POINT', 2,'COMMA')}">preco</td>
+					<td
+						th:text="${#numbers.formatDecimal(item.SubTotal, 0, 'POINT', 2,'COMMA')}">subTotal</td>
+				</tr>
+			</table>
+			<p class="total">
+				Valor total: <span
+					th:text="${#numbers.formatDecimal(pedido.ValorTotal, 0, 'POINT', 2, 'COMMA')}"></span>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
