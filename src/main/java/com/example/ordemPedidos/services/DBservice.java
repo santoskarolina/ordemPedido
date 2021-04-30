@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ordemPedidos.entities.Categoria;
@@ -19,6 +20,7 @@ import com.example.ordemPedidos.entities.PagamentoComCartao;
 import com.example.ordemPedidos.entities.Pedido;
 import com.example.ordemPedidos.entities.Produto;
 import com.example.ordemPedidos.entities.enums.EstadoPagamento;
+import com.example.ordemPedidos.entities.enums.Perfil;
 import com.example.ordemPedidos.entities.enums.TipoCliente;
 import com.example.ordemPedidos.repositories.CategoriaRepository;
 import com.example.ordemPedidos.repositories.CidadeRepository;
@@ -33,6 +35,9 @@ import com.example.ordemPedidos.repositories.ProdutoRepository;
 
 @Service
 public class DBservice {
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
@@ -60,6 +65,7 @@ public class DBservice {
 
 	@Autowired
 	private PagamentoRepository pagamentoRespository;
+
 
 	public void instantiateDatabase() throws ParseException {
 
@@ -122,24 +128,29 @@ public class DBservice {
 		est2.getCidades().addAll(Arrays.asList(cd3));
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 
-		Cliente cli1 = new Cliente(null, "Ana Karolina", "lorakteste@gmail.com", TipoCliente.PESSOA_FISICA,
-				"618.014.053-79");
+		Cliente cli1 = new Cliente(null, "Ana Karolina", "lorakteste@gmail.com", TipoCliente.PESSOA_FISICA,"61801405379", passwordEncoder.encode("123"));
+		cli1.getTelefones().add("(98)983507150");
 		clienteRepository.saveAll(Arrays.asList(cli1));
+		
+		Cliente cli2 = new Cliente(null, "Maria", "marysantos.san@gmail.com", TipoCliente.PESSOA_FISICA,"61801405379", passwordEncoder.encode("123"));
+		cli2.addPerfil(Perfil.ADMINISTRADOR);
+		cli2.getTelefones().addAll(Arrays.asList("(98)981166683","(98)981459104"));
+		clienteRepository.saveAll(Arrays.asList(cli2));
 
-		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052-572", cli1, cd1);
-		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052-572", cli1, cd1);
-		enderecoRepository.saveAll(Arrays.asList(ed1, ed2));
+		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052572", cli1, cd1);
+		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052572", cli1, cd1);
+		Endereco ed3 = new Endereco(null, "Rua", "3C", "Rua da Manga", "Lima Verde", "65052572", cli2, cd1);
+		enderecoRepository.saveAll(Arrays.asList(ed1, ed2,ed3));
 
-		cli1.getEnderecos().add(ed1);
-		cli1.getEnderecos().add(ed2);
-		clienteRepository.saveAll(Arrays.asList(cli1, cli1));
+		cli1.getEnderecos().addAll(Arrays.asList(ed1,ed2));
+		cli2.getEnderecos().add(ed3);
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 
 	
 		ed2.setCliente(cli1);
 		enderecoRepository.saveAll(Arrays.asList(ed1, ed2));
 
-		cli1.getTelefones().add("(98)983507150");
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		
 
 		Pedido pd1 = new Pedido(null, sdf.parse("01/04/2021 12:30"), cli1, ed1);
 		Pedido pd2 = new Pedido(null, sdf.parse("12/01/2021 12:30"), cli1, ed2);
