@@ -150,8 +150,7 @@ public class DBservice {
 		ed2.setCliente(cli1);
 		enderecoRepository.saveAll(Arrays.asList(ed1, ed2));
 
-		
-
+	
 		Pedido pd1 = new Pedido(null, sdf.parse("01/04/2021 12:30"), cli1, ed1);
 		Pedido pd2 = new Pedido(null, sdf.parse("12/01/2021 12:30"), cli1, ed2);
 
