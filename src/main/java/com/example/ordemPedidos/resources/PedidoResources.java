@@ -1,23 +1,22 @@
 package com.example.ordemPedidos.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.ordemPedidos.entities.Pedido;
-import com.example.ordemPedidos.entities.DTO.PedidoDTO;
 import com.example.ordemPedidos.services.PedidoService;
 
 @RestController
@@ -27,11 +26,6 @@ public class PedidoResources {
 	@Autowired
 	private PedidoService service;
 	
-	@GetMapping
-	public ResponseEntity<List<PedidoDTO>> findAll(){
-		List<PedidoDTO> listDTO = service.findAll().stream().map((x) -> new PedidoDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Pedido> findById(@PathVariable Integer id){
@@ -47,5 +41,14 @@ public class PedidoResources {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	
+	@GetMapping
+	public ResponseEntity<Page<Pedido>> findPage(
+			@RequestParam(name="page", defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage", defaultValue="24") Integer linesPerPage, 
+			@RequestParam(name="direction", defaultValue="DESC") String direction,
+			@RequestParam(name="orderBy", defaultValue="instante") String orderBy		
+			){
+				Page<Pedido> list = service.findPage(page, linesPerPage,direction,orderBy);
+				return ResponseEntity.ok().body(list);
+	}
 }

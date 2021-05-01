@@ -26,7 +26,7 @@ public class ProdutoService {
 	
 	public Produto findById(Integer id) {
 		Optional<Produto> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Produto não encontrado"));
 	}
 	
 	public Page<Produto> search(

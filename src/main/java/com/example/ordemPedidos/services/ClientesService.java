@@ -17,9 +17,12 @@ import com.example.ordemPedidos.entities.Cliente;
 import com.example.ordemPedidos.entities.Endereco;
 import com.example.ordemPedidos.entities.DTO.ClienteDTO;
 import com.example.ordemPedidos.entities.DTO.ClienteNewDTO;
+import com.example.ordemPedidos.entities.enums.Perfil;
 import com.example.ordemPedidos.entities.enums.TipoCliente;
 import com.example.ordemPedidos.repositories.ClienteRepository;
 import com.example.ordemPedidos.repositories.EnderecoRepository;
+import com.example.ordemPedidos.security.UserSS;
+import com.example.ordemPedidos.services.exceptions.AuthorizationException;
 import com.example.ordemPedidos.services.exceptions.DataIntegrityException;
 import com.example.ordemPedidos.services.exceptions.ObjectNotFoundException;
 
@@ -40,8 +43,12 @@ public class ClientesService {
 	}
 	
 	public Cliente findById(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		Optional<Cliente> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
 	
 	@Transactional

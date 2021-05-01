@@ -1,13 +1,16 @@
 package com.example.ordemPedidos.services;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.ordemPedidos.entities.Cliente;
 import com.example.ordemPedidos.entities.ItemPedido;
 import com.example.ordemPedidos.entities.PagamentoComBoleto;
 import com.example.ordemPedidos.entities.Pedido;
@@ -15,6 +18,8 @@ import com.example.ordemPedidos.entities.enums.EstadoPagamento;
 import com.example.ordemPedidos.repositories.ItemPedidoRepository;
 import com.example.ordemPedidos.repositories.PagamentoRepository;
 import com.example.ordemPedidos.repositories.PedidoRepository;
+import com.example.ordemPedidos.security.UserSS;
+import com.example.ordemPedidos.services.exceptions.AuthorizationException;
 import com.example.ordemPedidos.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -41,13 +46,10 @@ public class PedidoService {
 	@Autowired
 	private EmailService emailService;
 	
-	public List<Pedido> findAll(){
-		return repository.findAll();
-	}
 	
 	public Pedido findById(Integer id) {
 		Optional<Pedido> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(id));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
 	
 	@Transactional
@@ -75,5 +77,16 @@ public class PedidoService {
 		//emailService.senderOrderConfirmationEmail(obj);
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;	
+	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String direction,String orderBy){
+		
+		UserSS user = UserService.authenticated();
+		if(user==null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.findById(user.getId());
+		return repository.findByCliente(cliente, pageRequest);
 	}
 }

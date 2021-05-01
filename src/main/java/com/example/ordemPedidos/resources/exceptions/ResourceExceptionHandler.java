@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.example.ordemPedidos.services.exceptions.AuthorizationException;
 import com.example.ordemPedidos.services.exceptions.DataIntegrityException;
 import com.example.ordemPedidos.services.exceptions.ObjectNotFoundException;
 
@@ -37,7 +38,7 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
 		String erro = "Erro da validação";
 		String message = "Campos incorretos";
-		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
 		ValidationError validationErro = new ValidationError(Instant.now(), status.value(), erro, message, request.getRequestURI());
 		
@@ -46,5 +47,13 @@ public class ResourceExceptionHandler {
 			validationErro.addError(x.getField(), x.getDefaultMessage());
 		}	
 		return ResponseEntity.status(status).body(validationErro);	
+	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request ){
+		String error = "Acesso negado";
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
 	}
 }

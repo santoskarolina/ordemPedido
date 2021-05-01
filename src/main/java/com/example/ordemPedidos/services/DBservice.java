@@ -133,7 +133,7 @@ public class DBservice {
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		
 		Cliente cli2 = new Cliente(null, "Maria", "marysantos.san@gmail.com", TipoCliente.PESSOA_FISICA,"61801405379", passwordEncoder.encode("123"));
-		cli2.addPerfil(Perfil.ADMINISTRADOR);
+		cli2.addPerfil(Perfil.ADMIN);
 		cli2.getTelefones().addAll(Arrays.asList("(98)981166683","(98)981459104"));
 		clienteRepository.saveAll(Arrays.asList(cli2));
 

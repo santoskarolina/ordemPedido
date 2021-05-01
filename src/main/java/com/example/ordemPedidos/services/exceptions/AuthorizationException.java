@@ -1,10 +1,10 @@
 package com.example.ordemPedidos.services.exceptions;
 
-public class ObjectNotFoundException extends RuntimeException{
+public class AuthorizationException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public ObjectNotFoundException(String msg) {
+	public AuthorizationException(String msg) {
 		super(msg);
 	}
 
