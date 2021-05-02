@@ -38,16 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private Environment env;
 	
-	private static final String[] PUBLIC_MATCHES = {
+	private static final String[] PUBLIC_MATCHERS = {
 			"/h2-console/**",
 	};
 	
-	private static final String[] PUBLIC_MATCHES_GET = {
+	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/categorias/**",
 			"/produtos/**",
 	};
 	
-	private static final String[] PUBLIC_MATCHES_POST = {
+	private static final String[] PUBLIC_MATCHERS_POST = {
 			"/clientes/**",
 			"/auth/forgot/**"
 	};
@@ -61,10 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.POST, PUBLIC_MATCHES_POST).permitAll() 
-			.antMatchers(HttpMethod.GET, PUBLIC_MATCHES_GET).permitAll() //permite acesso a todos os caminhos da string PUBLIC_MATCHES_GET apenas para o metodo get
-			.antMatchers(PUBLIC_MATCHES).permitAll() //permite acesso a todos os caminhos da string PUBLIC_MATCHES
-			.anyRequest().authenticated(); // e negar acesso a todos os outros caminhos
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+			.antMatchers(PUBLIC_MATCHERS).permitAll()
+			.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -77,8 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-		//CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-		//configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;

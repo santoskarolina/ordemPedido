@@ -16,9 +16,10 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 	
-	private JWTUtil jwtUtil;
+private JWTUtil jwtUtil;
+	
 	private UserDetailsService userDetailsService;
-
+	
 	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserDetailsService userDetailsService) {
 		super(authenticationManager);
 		this.jwtUtil = jwtUtil;
@@ -26,22 +27,25 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 	}
 	
 	@Override
-    public void doFilterInternal(HttpServletRequest request,  HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String header  = request.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain) throws IOException, ServletException {
+		
+		String header = request.getHeader("Authorization");
 		if (header != null && header.startsWith("Bearer ")) {
-			UsernamePasswordAuthenticationToken auth = getAuthentication(request, header.substring(7));
-			if(auth !=  null) {
+			UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
+			if (auth != null) {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		}
 		chain.doFilter(request, response);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
-		if(jwtUtil.tokenValido(token)) {
+	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
+		if (jwtUtil.tokenValido(token)) {
 			String username = jwtUtil.getUsername(token);
 			UserDetails user = userDetailsService.loadUserByUsername(username);
-			return new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
+			return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		}
 		return null;
 	}

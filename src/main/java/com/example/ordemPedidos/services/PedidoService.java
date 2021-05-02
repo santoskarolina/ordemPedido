@@ -15,6 +15,7 @@ import com.example.ordemPedidos.entities.ItemPedido;
 import com.example.ordemPedidos.entities.PagamentoComBoleto;
 import com.example.ordemPedidos.entities.Pedido;
 import com.example.ordemPedidos.entities.enums.EstadoPagamento;
+import com.example.ordemPedidos.entities.enums.Perfil;
 import com.example.ordemPedidos.repositories.ItemPedidoRepository;
 import com.example.ordemPedidos.repositories.PagamentoRepository;
 import com.example.ordemPedidos.repositories.PedidoRepository;
@@ -48,8 +49,15 @@ public class PedidoService {
 	
 	
 	public Pedido findById(Integer id) {
+		UserSS user = UserService.authenticated();
 		Optional<Pedido> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+		if(user==null || !user.hasRole(Perfil.ADMIN) && !obj.get().getCliente().getId().equals(user.getId())){
+			throw new AuthorizationException("Acesso Negado");
+		}
+	    return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+		/*
+		Optional<Pedido> obj = repository.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));*/
 	}
 	
 	@Transactional
@@ -79,14 +87,14 @@ public class PedidoService {
 		return obj;	
 	}
 	
+	// Verifica quem é o user logado e busca os pedidos somente dele
 	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String direction,String orderBy){
-		
 		UserSS user = UserService.authenticated();
-		if(user==null) {
+		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		Cliente cliente = clienteService.findById(user.getId());
+		Cliente cliente =  clienteService.findById(user.getId());
 		return repository.findByCliente(cliente, pageRequest);
 	}
 }

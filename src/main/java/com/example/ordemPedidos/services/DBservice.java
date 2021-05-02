@@ -136,15 +136,21 @@ public class DBservice {
 		cli2.addPerfil(Perfil.ADMIN);
 		cli2.getTelefones().addAll(Arrays.asList("(98)981166683","(98)981459104"));
 		clienteRepository.saveAll(Arrays.asList(cli2));
+		
+		Cliente cli3 = new Cliente(null, "Ana Karolina", "mariasantos@gmail.com", TipoCliente.PESSOA_FISICA,"61801405379", passwordEncoder.encode("123"));
+		cli1.getTelefones().add("(98)983507150");
+		clienteRepository.saveAll(Arrays.asList(cli3));
 
 		Endereco ed1 = new Endereco(null, "Rua", "3A", "Rua da farmacia", "Forquilha", "65052572", cli1, cd1);
 		Endereco ed2 = new Endereco(null, "Rua", "3B", "Rua da farmacia", "Forquilha", "65052572", cli1, cd1);
 		Endereco ed3 = new Endereco(null, "Rua", "3C", "Rua da Manga", "Lima Verde", "65052572", cli2, cd1);
-		enderecoRepository.saveAll(Arrays.asList(ed1, ed2,ed3));
+		Endereco ed4 = new Endereco(null, "Rua", "3C", "Rua da Manga", "Lima Verde", "65052572", cli2, cd1);
+		enderecoRepository.saveAll(Arrays.asList(ed1, ed2,ed3,ed4));
 
 		cli1.getEnderecos().addAll(Arrays.asList(ed1,ed2));
 		cli2.getEnderecos().add(ed3);
-		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
+		cli3.getEnderecos().add(ed4);
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2,cli3));
 
 	
 		ed2.setCliente(cli1);
@@ -153,18 +159,22 @@ public class DBservice {
 	
 		Pedido pd1 = new Pedido(null, sdf.parse("01/04/2021 12:30"), cli1, ed1);
 		Pedido pd2 = new Pedido(null, sdf.parse("12/01/2021 12:30"), cli1, ed2);
+		Pedido pd3 = new Pedido(null, sdf.parse("12/01/2021 12:30"), cli3, ed4);
 
 		Pagamento pgt1 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pd1, sdf.parse("20/02/2021 00:00"),
 				null);
 		pd1.setPagamento(pgt1);
 		Pagamento pgt2 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd2, 4);
 		pd2.setPagamento(pgt2);
+		Pagamento pgt3 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pd3, 4);
+		pd3.setPagamento(pgt3);
 
 		cli1.getPedidos().addAll(Arrays.asList(pd1, pd2));
+		cli3.getPedidos().addAll(Arrays.asList(pd3));
 
 		pedidoRepository.saveAll(Arrays.asList(pd1, pd2));
-		pagamentoRespository.saveAll(Arrays.asList(pgt1, pgt2));
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		pagamentoRespository.saveAll(Arrays.asList(pgt1, pgt2,pgt3));
+		clienteRepository.saveAll(Arrays.asList(cli1,cli3));
 
 		ItemPedido ip1 = new ItemPedido(p1, pd1, 10.00, 2, 1500.20);
 		ItemPedido ip2 = new ItemPedido(p2, pd2, 15.00, 1, 1320.20);

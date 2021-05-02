@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,12 +71,27 @@ public class ClientesService {
 			repository.deleteById(id);
 		}catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Cliente possui produtos associados");
+		}catch(AccessDeniedException e) {
+			throw new AuthorizationException("Acesso negado");
 		}
 	}
 	
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String direction,String orderBy){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
+	}
+	
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		Cliente obj = repository.findByEmail(email);
+		if(obj == null) {
+			throw new ObjectNotFoundException("Usuário não encontrdo com tal email");
+		}
+		return obj;
 	}
 	
 	private void updateDate(Cliente newObj, Cliente obj) {

@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.ordemPedidos.entities.Categoria;
 import com.example.ordemPedidos.entities.Pedido;
+import com.example.ordemPedidos.entities.DTO.CategoriaDTO;
+import com.example.ordemPedidos.entities.DTO.PedidoDTO;
 import com.example.ordemPedidos.services.PedidoService;
 
 @RestController
@@ -41,14 +44,15 @@ public class PedidoResources {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@GetMapping
-	public ResponseEntity<Page<Pedido>> findPage(
+	@GetMapping(value="/todos")
+	public ResponseEntity<Page<PedidoDTO>> findPage(
 			@RequestParam(name="page", defaultValue="0") Integer page, 
 			@RequestParam(name="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(name="direction", defaultValue="DESC") String direction,
-			@RequestParam(name="orderBy", defaultValue="instante") String orderBy		
+			@RequestParam(name="direction", defaultValue="ASC") String direction,
+			@RequestParam(name="orderBy", defaultValue="nome") String orderBy		
 			){
 				Page<Pedido> list = service.findPage(page, linesPerPage,direction,orderBy);
-				return ResponseEntity.ok().body(list);
+				Page<PedidoDTO> listDTO = list.map((x) -> new PedidoDTO(x));
+				return ResponseEntity.ok().body(listDTO);
 	}
 }
