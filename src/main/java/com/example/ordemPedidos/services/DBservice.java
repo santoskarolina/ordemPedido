@@ -115,10 +115,35 @@ public class DBservice {
 		p11.getCategorias().addAll(Arrays.asList(c7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
-		Estado est1 = new Estado(null, "Maranhão");
-		Estado est2 = new Estado(null, "Pará");
-		estadoRepository.saveAll(Arrays.asList(est1, est2));
-
+		Estado est1 = new Estado(null, "Acre");
+		Estado est2 = new Estado(null, "Alagoas");
+		Estado est3 = new Estado(null, "Amapá");
+		Estado est4 = new Estado(null, "Amazonas");
+		Estado est5 = new Estado(null, "Bahia");
+		Estado est6 = new Estado(null, "Ceará");
+		Estado est7 = new Estado(null, "Distrito Federal");
+		Estado est8 = new Estado(null, "Espírito Santo");
+		Estado est9 = new Estado(null, "Goiás");
+		Estado est10 = new Estado(null, "Maranhão");
+		Estado est11 = new Estado(null, "Mato Grosso");
+		Estado est12 = new Estado(null, "Mato Grosso do Sul");
+		Estado est13 = new Estado(null, "Pará");
+		Estado est14 = new Estado(null, "Paraíba");
+		Estado est15 = new Estado(null, "Paraná");
+		Estado est16 = new Estado(null, "Pernambuco");
+		Estado est17 = new Estado(null, "Piauí");
+		Estado est18 = new Estado(null, "Rio de Janeiro");
+		Estado est19 = new Estado(null, "Rio Grande do Norte");
+		Estado est20 = new Estado(null, "Rio Grande do Sul");
+		Estado est21 = new Estado(null, "Rondônia");
+		Estado est22 = new Estado(null, "Roraima");
+		Estado est23 = new Estado(null, "Santa Catarina");
+		Estado est24 = new Estado(null, "São Paulo");
+		Estado est25 = new Estado(null, "Sergipe");
+		Estado est26 = new Estado(null, "Tocantins");
+		estadoRepository.saveAll(Arrays.asList(est1, est2,est3,est4,est5,est6,est7,est8,est9,est10,
+				est11,est12,est13,est14,est15,est16,est17,est18,est19,est20,est21,est22,est23,est24,est25,est26));
+		
 		Cidade cd1 = new Cidade(null, "São Luis", est1);
 		Cidade cd2 = new Cidade(null, "Imperatriz", est1);
 		Cidade cd3 = new Cidade(null, "Parauapebas", est2);
