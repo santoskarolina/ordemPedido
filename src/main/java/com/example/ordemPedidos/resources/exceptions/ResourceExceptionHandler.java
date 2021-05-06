@@ -1,6 +1,7 @@
 package com.example.ordemPedidos.resources.exceptions;
 
 import java.time.Instant;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -74,4 +75,13 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(), status.value(), error, "Usuário não permitido", request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<StandardError> notFound(NoSuchElementException e, HttpServletRequest request ){
+		String error = "Objeto não encontrado";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, "Objeto não encontrado", request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	
 }

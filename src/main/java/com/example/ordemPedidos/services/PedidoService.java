@@ -55,9 +55,6 @@ public class PedidoService {
 			throw new AuthorizationException("Acesso Negado");
 		}
 	    return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
-		/*
-		Optional<Pedido> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));*/
 	}
 	
 	@Transactional

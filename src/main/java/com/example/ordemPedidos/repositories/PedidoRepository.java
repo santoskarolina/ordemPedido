@@ -13,5 +13,5 @@ import com.example.ordemPedidos.entities.Pedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
 	@Transactional(readOnly=true)
-	public Page<Pedido> findByCliente(Cliente cliente, Pageable pageRequest);
+	Page<Pedido> findByCliente(Cliente cliente, Pageable pageRequest);
 }
