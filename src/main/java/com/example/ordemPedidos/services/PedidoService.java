@@ -85,12 +85,12 @@ public class PedidoService {
 	}
 	
 	// Verifica quem é o user logado e busca os pedidos somente dele
-	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String direction,String orderBy){
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String direction,String orderBy) {
 		UserSS user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
 		Cliente cliente =  clienteService.findById(user.getId());
 		return repository.findByCliente(cliente, pageRequest);
 	}

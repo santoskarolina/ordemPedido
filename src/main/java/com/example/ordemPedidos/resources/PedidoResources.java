@@ -46,8 +46,7 @@ public class PedidoResources {
 			@RequestParam(name="page", defaultValue="0") Integer page, 
 			@RequestParam(name="linesPerPage", defaultValue="24") Integer linesPerPage, 
 			@RequestParam(name="direction", defaultValue="ASC") String direction,
-			@RequestParam(name="orderBy", defaultValue="nome") String orderBy		
-			){
+			@RequestParam(name="orderBy", defaultValue="horaPedido") String orderBy){
 				Page<Pedido> listPedidos = service.findPage(page, linesPerPage,direction,orderBy);
 				return ResponseEntity.ok().body(listPedidos);
 	}
