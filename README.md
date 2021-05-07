@@ -13,6 +13,10 @@ Backend feito em Java com Spring Boot, para um aplicativo de pedidos.
 
 ![modelo conceitual](https://github.com/anna104016/html/blob/main/html/diagrama.png)
 
+## Modelo de camadas
+
+![camadas](https://github.com/anna104016/html/blob/main/estrutura%20de%20camadas01.png)
+
 ## Exemplo de requisição JSON no Postaman
 
 ```http
