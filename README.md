@@ -61,7 +61,6 @@ Backend feito em Java com Spring Boot, para um aplicativo de pedidos.
 - Banco de dados h2 para testes
 - Postman para teste de requisições
 - JWT para geração de tokens
-- Envio de emails
 
 ## Requisições 
 
