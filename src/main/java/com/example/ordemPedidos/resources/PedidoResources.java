@@ -19,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.ordemPedidos.entities.Pedido;
 import com.example.ordemPedidos.services.PedidoService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/pedidos")
 public class PedidoResources {
@@ -26,7 +28,7 @@ public class PedidoResources {
 	@Autowired
 	private PedidoService service;
 	
-	
+	@ApiOperation(value="Buscar pedido por id")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Pedido> findById(@PathVariable Integer id){
 		Pedido obj = service.findById(id);
@@ -34,6 +36,7 @@ public class PedidoResources {
 		
 	}
 	
+	@ApiOperation(value="Inserir novo pedido")
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj){
 		obj = service.insert(obj);
@@ -41,6 +44,7 @@ public class PedidoResources {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Retornar todos os pedidos com paginação")
 	@GetMapping
 	public ResponseEntity<Page<Pedido>> findPage(
 			@RequestParam(name="page", defaultValue="0") Integer page, 

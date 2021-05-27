@@ -26,6 +26,10 @@ import com.example.ordemPedidos.entities.DTO.ClienteDTO;
 import com.example.ordemPedidos.entities.DTO.ClienteNewDTO;
 import com.example.ordemPedidos.services.ClientesService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClientesResources {
@@ -33,26 +37,30 @@ public class ClientesResources {
 	@Autowired
 	private ClientesService service;
 	
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Retornar todos os clientes")
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> findAll(){
 		List<ClienteDTO> listDTO = service.findAll().stream().map((x) -> new ClienteDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@ApiOperation(value="Buscar cliente por id")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Cliente> findById(@PathVariable Integer id){
 		Cliente obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	
+	@ApiOperation(value="Buscar cliente por email")
 	@GetMapping(value="/email")
 	public ResponseEntity<Cliente> findByEmail(@RequestParam(value="value") String email){
 		Cliente obj = service.findByEmail(email);
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Inserir novo cliente")
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO){
 		Cliente obj = service.fromDTO(objDTO);
@@ -61,6 +69,7 @@ public class ClientesResources {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Atualizar cliente")
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO objDTo, @PathVariable Integer id){
 		Cliente obj = service.fromDTO(objDTo);
@@ -69,6 +78,9 @@ public class ClientesResources {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Deletar um cliente")
+	@ApiResponses(value = {
+			@ApiResponse(code = 400, message = "Não é possível excluir um cliente que possui pedidos") })
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
@@ -76,6 +88,7 @@ public class ClientesResources {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Retornar todos os clientes com paginação")
 	@GetMapping(value="/page")
 	public ResponseEntity<Page<ClienteDTO>> findPage(
 			@RequestParam(name="page", defaultValue="0") Integer page, 

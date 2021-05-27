@@ -16,6 +16,8 @@ import com.example.ordemPedidos.entities.DTO.ProdutoDTO;
 import com.example.ordemPedidos.resources.utils.URL;
 import com.example.ordemPedidos.services.ProdutoService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/produtos")
 public class ProdutoResources {
@@ -23,13 +25,14 @@ public class ProdutoResources {
 	@Autowired
 	private ProdutoService service;
 	
+	@ApiOperation(value="Buscar produto por id")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Produto> findById(@PathVariable Integer id){
 		Produto obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	
+	@ApiOperation(value="Retornar todos os produtos com paginação")
 	@GetMapping
 	public ResponseEntity<Page<ProdutoDTO>> findPage(
 			@RequestParam(name="nome", defaultValue="") String nome, 

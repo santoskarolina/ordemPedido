@@ -17,6 +17,8 @@ import com.example.ordemPedidos.entities.DTO.EstadoDTO;
 import com.example.ordemPedidos.services.CidadeService;
 import com.example.ordemPedidos.services.EstadoService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/estados")
 public class EstadoResources {
@@ -27,6 +29,7 @@ public class EstadoResources {
 	@Autowired
 	private CidadeService cidadeService;
 	
+	@ApiOperation(value="Retornar todos os estados")
 	@GetMapping
 	public ResponseEntity<List<EstadoDTO>> findAll(){
 		List<Estado> list = service.findAll();
@@ -34,6 +37,7 @@ public class EstadoResources {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@ApiOperation(value="Retornar todos as cidades de um estado")
 	@GetMapping(value="/{estadoId}/cidades")
 	public ResponseEntity<List<CidadeDTO>> findCidades(@PathVariable Integer estadoId){
 		List<Cidade> list = cidadeService.findbyEstado(estadoId);

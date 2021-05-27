@@ -26,6 +26,7 @@ public class AuthResource {
 	@Autowired
 	private AuthService service;
 
+	
 	@PostMapping(value="/refresh_token")
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
 		UserSS user = UserService.authenticated();

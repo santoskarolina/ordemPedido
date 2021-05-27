@@ -83,15 +83,6 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(), status.value(), error, "Objeto não encontrado", request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-
-	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<StandardError> notFound(IllegalArgumentException e, HttpServletRequest request ){
-		String error = "Objeto não encontrado";
-		HttpStatus status = HttpStatus.BAD_REQUEST;
-		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
-		return ResponseEntity.status(status).body(err);
-	}
-	
 	
 }
 
